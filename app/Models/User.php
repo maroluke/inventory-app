@@ -52,4 +52,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return [];
     }
+
+    /**
+     * Get all inventory items the user created.
+     * 
+     * @return array
+     */
+    public function inventoryItems() {
+        return $this->hasMany(InventoryItem::class, 'user_id');
+    }
+    
 }
