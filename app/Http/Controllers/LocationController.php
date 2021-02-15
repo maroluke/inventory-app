@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\InventoryItem;
-use App\Http\Resources\InventoryItemResource;
+use App\Models\Location;
+use App\Http\Resources\LocationResource;
 
-class InventoryItemController extends Controller
+class LocationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class InventoryItemController extends Controller
      */
     public function index()
     {
-        return InventoryItemResource::collection(InventoryItem::all());
+        return LocationResource::collection(Location::all());
     }
 
     /**
@@ -37,19 +37,18 @@ class InventoryItemController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string',
-            'type_id' => 'poly_exists:type_type',
-            'user_id' => 'required|exists:App\Model\User,id',
-            'location_id' => 'required|exists:App\Model\Location,id',
+            'branch' => 'required|string',
+            'room' => 'required|string',
+            'shelf' => 'required|string',
+            'compartment' => 'required|string',
         ]);
 
-        $inventoryItem = new InventoryItem;
-        $inventoryItem->name = $request->name;
-        $inventoryItem->type_id = $request->type_id;
-        $inventoryItem->type_type = $request->type_type;
-        $inventoryItem->user_id = $request->user_id;
-        $inventoryItem->location_id = $requset->location_id;
-        $inventoryItem->save();
+        $location = new Location;
+        $location->branch = $request->branch;
+        $location->room = $request->room;
+        $location->shelf = $request->shelf;
+        $location->compartment = $request->compartment;
+        $location->save();
     }
 
     /**
@@ -60,7 +59,7 @@ class InventoryItemController extends Controller
      */
     public function show($id)
     {
-        return new InventoryItemResource(InventoryItem::findOrFail($id));
+        return new LocationResource(Location::findOrFail($id));
     }
 
     /**
@@ -84,15 +83,18 @@ class InventoryItemController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'string',
-            'user_id' => 'exists:App\Model\User,id',
-            'location_id' => 'exists:App\Model\Location,id',
+            'branch' => 'required|string',
+            'room' => 'required|string',
+            'shelf' => 'required|string',
+            'compartment' => 'required|string',
         ]);
 
-        $inventoryItem = InventoryItem::findOrFail($id);
-        if ($request->name) $inventoryItem->name = $request->name;
-        if ($request->user_id) $inventoryItem->user_id = $request->user_id;
-        if ($request->location_id) $inventoryItem->location_id = $request->location_id;
+        $location = Location::findOrFail($id);
+        if ($request->branch) $location->branch = $request->branch;
+        if ($request->room) $location->room = $request->room;
+        if ($request->shelf) $location->shelf = $request->shelf;
+        if ($request->compartment) $location->compartment = $request->compartment;
+        $location->save();
     }
 
     /**
@@ -103,8 +105,6 @@ class InventoryItemController extends Controller
      */
     public function destroy($id)
     {
-        $inventoryItem = InventoryItem::findOrFail($id);
-        if ($inventoryItem->type) $inventoryItem->type->delete();
-        $inventoryItem->delete();
+        Location::destroy($id);
     }
 }

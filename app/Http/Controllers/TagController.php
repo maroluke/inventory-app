@@ -15,7 +15,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        return new TagResource(Tag::all());
+        return TagResource::collection(Tag::all());
     }
 
     /**
@@ -38,10 +38,12 @@ class TagController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'inventoryItemId' => 'required|exists:App\Model\InventoryItem,id',
+            'inventory_item_id' => 'required|exists:App\Model\InventoryItem,id',
         ]);
 
-        $tag = Tag::create($request);
+        $tag = new Tag;
+        $tag->name = $request->name;
+        $tag->inventory_item_id = $request->inventory_item_id;
         $tag->save();
     }
 
@@ -78,12 +80,12 @@ class TagController extends Controller
     {
         $this->validate($request, [
             'name' => 'string',
-            'inventoryItemId' => 'exists:App\Model\InventoryItem,id',
+            'inventory_item_id' => 'exists:App\Model\InventoryItem,id',
         ]);
 
         $tag = Tag::findOrFail($id);
         if ($request->name) $tag->name = $request->name;
-        if ($request->inventoryItemId) $tag->inventory_item_id = $request->inventoryItemId;
+        if ($request->inventoryItemId) $tag->inventory_item_id = $request->inventory_item_id;
         $tag->save();
     }
 
