@@ -10,9 +10,21 @@ use App\Http\Resources\BookResource;
 class BookController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *      path="/api/book",
+     *      operationId="listBook",
+     *      tags={"Book"},
+     *      summary="List books",
+     *      description="Get a List of all books.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized"
+     *       ),
+     *     )
      */
     public function index()
     {
@@ -30,17 +42,84 @@ class BookController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @OA\Post(
+     *      path="/api/book",
+     *      operationId="storeBook",
+     *      tags={"Book"},
+     *      summary="Create book",
+     *      description="Create a new book.",
+     *      @OA\Parameter(
+     *         name="name",
+     *         in="path",
+     *         description="The title of the book.",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *         name="user_id",
+     *         in="path",
+     *         description="The id of the user created the book.",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Parameter(
+     *         name="location_id",
+     *         in="path",
+     *         description="The location the book is stored in.",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Parameter(
+     *         name="isbn",
+     *         in="path",
+     *         description="The isbn number of the book.",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *         name="author",
+     *         in="path",
+     *         description="The author of the book.",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *         name="excerpt",
+     *         in="path",
+     *         description="A short text that describes the content of the book.",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *         name="release_date",
+     *         in="path",
+     *         description="The date the book was released on.",
+     *         required=false,
+     *         @OA\Schema(type="date")
+     *      ),
+     *      @OA\Parameter(
+     *         name="language",
+     *         in="path",
+     *         description="The language the book is written in.",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized"
+     *       ),
+     *     )
      */
     public function store(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'user_id' => 'required|exists:App\Model\User,id',
-            'location_id' => 'required|exists:App\Model\Location,id',
+            'user_id' => 'required|exists:App\Models\User,id',
+            'location_id' => 'required|exists:App\Models\Location,id',
             'isbn' => 'string',
             'author' => 'required|string',
             'excerpt' => 'string',
@@ -58,17 +137,29 @@ class BookController extends Controller
 
         $inventoryItem = new InventoryItem;
         $inventoryItem->name = $request->name;
-        $inventoryItem->type = $book;
         $inventoryItem->user_id = $request->user_id;
         $inventoryItem->location_id = $request->location_id;
         $inventoryItem->save();
+
+        $inventoryItem->type()->associate($book)->save();
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *      path="/api/book/{id}",
+     *      operationId="showBook",
+     *      tags={"Book"},
+     *      summary="Show book",
+     *      description="Display a book",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized"
+     *       ),
+     *     )
      */
     public function show($id)
     {
@@ -87,11 +178,77 @@ class BookController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @OA\Patch(
+     *      path="/api/book/{id}",
+     *      operationId="updateBook",
+     *      tags={"Book"},
+     *      summary="Update book",
+     *      description="Update a book.",
+     *      @OA\Parameter(
+     *         name="name",
+     *         in="path",
+     *         description="The title of the book.",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *         name="user_id",
+     *         in="path",
+     *         description="The id of the user created the book.",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Parameter(
+     *         name="location_id",
+     *         in="path",
+     *         description="The location the book is stored in.",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Parameter(
+     *         name="isbn",
+     *         in="path",
+     *         description="The isbn number of the book.",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *         name="author",
+     *         in="path",
+     *         description="The author of the book.",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *         name="excerpt",
+     *         in="path",
+     *         description="A short text that describes the content of the book.",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *         name="release_date",
+     *         in="path",
+     *         description="The date the book was released on.",
+     *         required=false,
+     *         @OA\Schema(type="date")
+     *      ),
+     *      @OA\Parameter(
+     *         name="language",
+     *         in="path",
+     *         description="The language the book is written in.",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized"
+     *       ),
+     *     )
      */
     public function update(Request $request, $id)
     {
@@ -115,10 +272,21 @@ class BookController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @OA\Delete(
+     *      path="/api/book/{id}",
+     *      operationId="deleteBook",
+     *      tags={"Book"},
+     *      summary="Delete book",
+     *      description="Delete a book.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized"
+     *       ),
+     *     )
      */
     public function destroy($id)
     {

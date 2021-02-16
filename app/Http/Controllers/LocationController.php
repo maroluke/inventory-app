@@ -9,9 +9,21 @@ use App\Http\Resources\LocationResource;
 class LocationController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *      path="/api/location",
+     *      operationId="listLocation",
+     *      tags={"Location"},
+     *      summary="List locations",
+     *      description="Get a List of all locations.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized"
+     *       ),
+     *     )
      */
     public function index()
     {
@@ -29,10 +41,49 @@ class LocationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @OA\Post(
+     *      path="/api/location",
+     *      operationId="storeLocation",
+     *      tags={"Location"},
+     *      summary="Create location",
+     *      description="Create a new location.",
+     *      @OA\Parameter(
+     *         name="branch",
+     *         in="path",
+     *         description="The branch of the company where the location is.",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *         name="room",
+     *         in="path",
+     *         description="The room the location is.",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *         name="shelf",
+     *         in="path",
+     *         description="The shelf the location is in.",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *         name="compartment",
+     *         in="path",
+     *         description="The compartment in the shelf of the location.",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized"
+     *       ),
+     *     )
      */
     public function store(Request $request)
     {
@@ -52,10 +103,21 @@ class LocationController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *      path="/api/location/{id}",
+     *      operationId="showLocation",
+     *      tags={"Location"},
+     *      summary="Show location",
+     *      description="Display a location",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized"
+     *       ),
+     *     )
      */
     public function show($id)
     {
@@ -74,11 +136,49 @@ class LocationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @OA\Patch(
+     *      path="/api/location/{id}",
+     *      operationId="updateLocation",
+     *      tags={"Location"},
+     *      summary="Update location",
+     *      description="Update a new location.",
+     *      @OA\Parameter(
+     *         name="branch",
+     *         in="path",
+     *         description="The branch of the company where the location is.",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *         name="room",
+     *         in="path",
+     *         description="The room the location is.",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *         name="shelf",
+     *         in="path",
+     *         description="The shelf the location is in.",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *         name="compartment",
+     *         in="path",
+     *         description="The compartment in the shelf of the location.",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized"
+     *       ),
+     *     )
      */
     public function update(Request $request, $id)
     {
@@ -98,10 +198,21 @@ class LocationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @OA\Delete(
+     *      path="/api/location/{id}",
+     *      operationId="deleteLocation",
+     *      tags={"Location"},
+     *      summary="Delete location",
+     *      description="Delete a location.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized"
+     *       ),
+     *     )
      */
     public function destroy($id)
     {

@@ -9,9 +9,21 @@ use App\Http\Resources\TagResource;
 class TagController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *      path="/api/tag",
+     *      operationId="listTag",
+     *      tags={"Tag"},
+     *      summary="List tags",
+     *      description="Get a List of all tags",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized"
+     *       ),
+     *     )
      */
     public function index()
     {
@@ -29,16 +41,41 @@ class TagController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @OA\Post(
+     *      path="/api/tag",
+     *      operationId="storeTag",
+     *      tags={"Tag"},
+     *      summary="Create tag",
+     *      description="Create a new Tag",
+     *      @OA\Parameter(
+     *         name="name",
+     *         in="path",
+     *         description="The display name of the tag.",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *         name="inventory_item_id",
+     *         in="path",
+     *         description="The inventory item the tag is associated with.",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized"
+     *       ),
+     *     )
      */
     public function store(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'inventory_item_id' => 'required|exists:App\Model\InventoryItem,id',
+            'inventory_item_id' => 'required|exists:App\Models\InventoryItem,id',
         ]);
 
         $tag = new Tag;
@@ -48,10 +85,21 @@ class TagController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *      path="/api/tag/{id}",
+     *      operationId="showTag",
+     *      tags={"Tag"},
+     *      summary="Show tag",
+     *      description="Display a single tag",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized"
+     *       ),
+     *     )
      */
     public function show($id)
     {
@@ -70,11 +118,35 @@ class TagController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @OA\Patch(
+     *      path="/api/tag/{id}",
+     *      operationId="updateTag",
+     *      tags={"Tag"},
+     *      summary="Update tag",
+     *      description="Update variables of a tag.",
+     *      @OA\Parameter(
+     *         name="name",
+     *         in="path",
+     *         description="The display name of the tag.",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *         name="inventory_item_id",
+     *         in="path",
+     *         description="The inventory item the tag is associated with.",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized"
+     *       ),
+     *     )
      */
     public function update(Request $request, $id)
     {
@@ -90,10 +162,21 @@ class TagController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @OA\Delete(
+     *      path="/api/tag/{id}",
+     *      operationId="deleteTag",
+     *      tags={"Tag"},
+     *      summary="Delete tag",
+     *      description="Delete a tag.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized"
+     *       ),
+     *     )
      */
     public function destroy($id)
     {

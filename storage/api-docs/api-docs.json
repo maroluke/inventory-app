@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Base API Project",
+        "title": "Inventory-API",
         "license": {
             "name": "MIT"
         },
@@ -184,6 +184,700 @@
                         "required": true,
                         "schema": {
                             "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/book": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "List books",
+                "description": "Get a List of all books.",
+                "operationId": "listBook",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Create book",
+                "description": "Create a new book.",
+                "operationId": "storeBook",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "The title of the book.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "The id of the user created the book.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "location_id",
+                        "in": "path",
+                        "description": "The location the book is stored in.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "isbn",
+                        "in": "path",
+                        "description": "The isbn number of the book.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "author",
+                        "in": "path",
+                        "description": "The author of the book.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "excerpt",
+                        "in": "path",
+                        "description": "A short text that describes the content of the book.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "release_date",
+                        "in": "path",
+                        "description": "The date the book was released on.",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "language",
+                        "in": "path",
+                        "description": "The language the book is written in.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/book/{id}": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Show book",
+                "description": "Display a book",
+                "operationId": "showBook",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Delete book",
+                "description": "Delete a book.",
+                "operationId": "deleteBook",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Update book",
+                "description": "Update a book.",
+                "operationId": "updateBook",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "The title of the book.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "The id of the user created the book.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "location_id",
+                        "in": "path",
+                        "description": "The location the book is stored in.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "isbn",
+                        "in": "path",
+                        "description": "The isbn number of the book.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "author",
+                        "in": "path",
+                        "description": "The author of the book.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "excerpt",
+                        "in": "path",
+                        "description": "A short text that describes the content of the book.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "release_date",
+                        "in": "path",
+                        "description": "The date the book was released on.",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "language",
+                        "in": "path",
+                        "description": "The language the book is written in.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/inventoryitem": {
+            "get": {
+                "tags": [
+                    "Inventory Item"
+                ],
+                "summary": "List inventory items",
+                "description": "Get a List of all inventory items.",
+                "operationId": "listInventoryItem",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Inventory Item"
+                ],
+                "summary": "Create inventory item",
+                "description": "Create a new inventory item.",
+                "operationId": "storeInventoryItem",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "The name of the inventory item.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "type_id",
+                        "in": "path",
+                        "description": "The id of the morph item.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "type_type",
+                        "in": "path",
+                        "description": "The type of the morph item.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "The user id of the creator of the item.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "location_id",
+                        "in": "path",
+                        "description": "The id of the location the item is stored in.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/inventoryitem/{id}": {
+            "get": {
+                "tags": [
+                    "Inventory Item"
+                ],
+                "summary": "Show inventory item",
+                "description": "Display an inventory item",
+                "operationId": "showInventoryItem",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Inventory Item"
+                ],
+                "summary": "Delete inventory item",
+                "description": "Delete an inventory item.",
+                "operationId": "deleteInventoryItem",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Inventory Item"
+                ],
+                "summary": "Update inventory item",
+                "description": "Update variables in an inventory item.",
+                "operationId": "updateInventoryItem",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "The name of the inventory item.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "type_id",
+                        "in": "path",
+                        "description": "The id of the morph item.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "type_type",
+                        "in": "path",
+                        "description": "The type of the morph item.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "The user id of the creator of the item.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "location_id",
+                        "in": "path",
+                        "description": "The id of the location the item is stored in.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/location": {
+            "get": {
+                "tags": [
+                    "Location"
+                ],
+                "summary": "List locations",
+                "description": "Get a List of all locations.",
+                "operationId": "listLocation",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Location"
+                ],
+                "summary": "Create location",
+                "description": "Create a new location.",
+                "operationId": "storeLocation",
+                "parameters": [
+                    {
+                        "name": "branch",
+                        "in": "path",
+                        "description": "The branch of the company where the location is.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "room",
+                        "in": "path",
+                        "description": "The room the location is.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "shelf",
+                        "in": "path",
+                        "description": "The shelf the location is in.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "compartment",
+                        "in": "path",
+                        "description": "The compartment in the shelf of the location.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/location/{id}": {
+            "get": {
+                "tags": [
+                    "Location"
+                ],
+                "summary": "Show location",
+                "description": "Display a location",
+                "operationId": "showLocation",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Location"
+                ],
+                "summary": "Delete location",
+                "description": "Delete a location.",
+                "operationId": "deleteLocation",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Location"
+                ],
+                "summary": "Update location",
+                "description": "Update a new location.",
+                "operationId": "updateLocation",
+                "parameters": [
+                    {
+                        "name": "branch",
+                        "in": "path",
+                        "description": "The branch of the company where the location is.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "room",
+                        "in": "path",
+                        "description": "The room the location is.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "shelf",
+                        "in": "path",
+                        "description": "The shelf the location is in.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "compartment",
+                        "in": "path",
+                        "description": "The compartment in the shelf of the location.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/tag": {
+            "get": {
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "List tags",
+                "description": "Get a List of all tags",
+                "operationId": "listTag",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "Create tag",
+                "description": "Create a new Tag",
+                "operationId": "storeTag",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "The display name of the tag.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "inventory_item_id",
+                        "in": "path",
+                        "description": "The inventory item the tag is associated with.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/tag/{id}": {
+            "get": {
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "Show tag",
+                "description": "Display a single tag",
+                "operationId": "showTag",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "Delete tag",
+                "description": "Delete a tag.",
+                "operationId": "deleteTag",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "Update tag",
+                "description": "Update variables of a tag.",
+                "operationId": "updateTag",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "The display name of the tag.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "inventory_item_id",
+                        "in": "path",
+                        "description": "The inventory item the tag is associated with.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
                         }
                     }
                 ],
