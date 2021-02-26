@@ -152,12 +152,12 @@ class TagController extends Controller
     {
         $this->validate($request, [
             'name' => 'string',
-            'inventory_item_id' => 'exists:App\Model\InventoryItem,id',
+            'inventory_item_id' => 'exists:App\Models\InventoryItem,id',
         ]);
 
         $tag = Tag::findOrFail($id);
         if ($request->name) $tag->name = $request->name;
-        if ($request->inventoryItemId) $tag->inventory_item_id = $request->inventory_item_id;
+        if ($request->inventory_item_id) $tag->inventory_item_id = $request->inventory_item_id;
         $tag->save();
     }
 

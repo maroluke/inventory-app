@@ -1,6 +1,7 @@
 <?php
 
 use Laravel\Lumen\Testing\TestCase as BaseTestCase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -13,4 +14,5 @@ abstract class TestCase extends BaseTestCase
     {
         return require __DIR__.'/../bootstrap/app.php';
     }
+
 }
