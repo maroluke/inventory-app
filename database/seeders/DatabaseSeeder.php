@@ -3,6 +3,11 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Book;
+use App\Models\User;
+use App\Models\Location;
+use App\Models\InventoryItem;
+use App\Models\Tag;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +18,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call('UsersTableSeeder');
+        User::factory()->count(5)->create();
+        Location::factory()->count(10)->create();
+        InventoryItem::factory()->count(100)->create();
+        Book::factory()->count(100)->create();
+        Tag::factory()->count(200)->create();
     }
 }
