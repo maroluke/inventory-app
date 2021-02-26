@@ -183,10 +183,10 @@ class LocationController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'branch' => 'required|string',
-            'room' => 'required|string',
-            'shelf' => 'required|string',
-            'compartment' => 'required|string',
+            'branch' => 'string',
+            'room' => 'string',
+            'shelf' => 'string',
+            'compartment' => 'string',
         ]);
 
         $location = Location::findOrFail($id);
