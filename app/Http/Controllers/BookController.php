@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\InventoryItem;
 use App\Models\Book;
 use App\Http\Resources\BookResource;
+use App\Http\Controllers\InventoryItemController;
 
 class BookController extends Controller
 {
@@ -262,7 +263,10 @@ class BookController extends Controller
         ]);
 
         $book = Book::findOrFail($id);
-        if ($requset->name) $book->inventoryItem->name = $request->name;
+        if ($request->name) {
+             $book->inventoryItem->name = $request->name;
+             $book->inventoryItem->save();
+        }
         if ($request->isbn) $book->isbn = $request->isbn;
         if ($request->author) $book->author = $request->author;
         if ($request->excerpt) $book->excerpt = $request->excerpt;
@@ -291,7 +295,10 @@ class BookController extends Controller
     public function destroy($id)
     {
         $book = Book::findOrFail($id);
-        $book->inventoryItem->delete();
-        $book->delete();
+        $inventoryItemId = $book->inventoryItem->id;
+
+        $inventoryItemController = new InventoryItemController;
+
+        return $inventoryItemController->destroy($inventoryItemId);
     }
 }

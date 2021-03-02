@@ -216,6 +216,7 @@ class LocationController extends Controller
      */
     public function destroy($id)
     {
-        Location::destroy($id);
+        $location = Location::findOrFail($id);
+        $location->delete();
     }
 }

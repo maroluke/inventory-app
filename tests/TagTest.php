@@ -173,4 +173,18 @@ class TagTest extends TestCase
         $this->delete("api/tag/3");
         $this->seeStatusCode(401);
     }
+
+    /**
+     * Test deleting not existing tag.
+     *
+     * @return void
+     */
+    public function testTagDeleteNotExisting()
+    {
+        $user = User::all()->random();
+
+        $this->actingAs($user, 'api')
+             ->delete("api/tag/900");
+        $this->seeStatusCode(404);
+    }
 }

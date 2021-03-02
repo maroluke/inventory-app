@@ -138,7 +138,7 @@ class LocationTest extends TestCase
         $user = User::all()->random();
 
         $this->actingAs($user, 'api')
-             ->delete("api/location/3");
+             ->delete("api/location/61");
         $this->seeStatusCode(200);
     }
 
@@ -149,7 +149,21 @@ class LocationTest extends TestCase
      */
     public function testLocationDeleteWithoutLogin()
     {
-        $this->delete("api/location/61");
+        $this->delete("api/location/1");
         $this->seeStatusCode(401);
+    }
+
+    /**
+     * Test deleting not existing location.
+     *
+     * @return void
+     */
+    public function testLocationDeleteNotExisting()
+    {
+        $user = User::all()->random();
+
+        $this->actingAs($user, 'api')
+             ->delete("api/location/900");
+        $this->seeStatusCode(404);
     }
 }

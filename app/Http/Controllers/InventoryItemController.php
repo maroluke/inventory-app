@@ -199,14 +199,15 @@ class InventoryItemController extends Controller
     {
         $this->validate($request, [
             'name' => 'string',
-            'user_id' => 'exists:App\Model\User,id',
-            'location_id' => 'exists:App\Model\Location,id',
+            'user_id' => 'exists:App\Models\User,id',
+            'location_id' => 'exists:App\Models\Location,id',
         ]);
 
         $inventoryItem = InventoryItem::findOrFail($id);
         if ($request->name) $inventoryItem->name = $request->name;
         if ($request->user_id) $inventoryItem->user_id = $request->user_id;
         if ($request->location_id) $inventoryItem->location_id = $request->location_id;
+        $inventoryItem->save();
     }
 
     /**
@@ -229,7 +230,16 @@ class InventoryItemController extends Controller
     public function destroy($id)
     {
         $inventoryItem = InventoryItem::findOrFail($id);
-        if ($inventoryItem->type) $inventoryItem->type->delete();
+
+        foreach($inventoryItem->tags as $tag) {
+            $tag->delete();
+        }
+
+        $type = $inventoryItem->type;
+        if ($type != null) {
+            $inventoryItem->type()->detatch($type);
+            $type->delete();
+        }
         $inventoryItem->delete();
     }
 }

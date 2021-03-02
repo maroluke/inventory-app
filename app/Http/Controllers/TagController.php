@@ -180,6 +180,7 @@ class TagController extends Controller
      */
     public function destroy($id)
     {
-        Tag::destroy($id);
+        $tag = Tag::findOrFail($id);
+        $tag->delete();
     }
 }

@@ -15,9 +15,11 @@ class InventoryItemResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'user' => $this->user,
-            'location' => $this->location,  
+            'location' => $this->location,
+            'type' => $this->type,  
         ];
     }
 }
