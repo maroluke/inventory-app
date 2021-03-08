@@ -37,8 +37,22 @@ class InventoryItem extends Model
         return $this->hasMany(Tag::class, 'inventory_item_id');
     }
 
+    /**
+     * Get the specialized type of the object.
+     * 
+     * @return Object
+     */
     public function type() {
         return $this->morphTo();
+    }
+
+    /**
+     * Get all images related to the item.
+     * 
+     * @return array
+     */
+    public function images() {
+        return $this->belongsToMany(Image::class, 'inventory_item_images');
     }
 
 }

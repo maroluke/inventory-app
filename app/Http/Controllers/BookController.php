@@ -126,6 +126,8 @@ class BookController extends Controller
             'excerpt' => 'string',
             'release_date' => 'date',
             'language' => 'required|string',
+            'image_ids' => 'array',
+            'images.*' => 'image',
         ]);
 
         $book = new Book;
@@ -143,6 +145,9 @@ class BookController extends Controller
         $inventoryItem->save();
 
         $inventoryItem->type()->associate($book)->save();
+
+        $inventoryItemController = new InventoryItemController;
+        $inventoryItemController->saveImages($inventoryItem, $request->image_ids, $request->images);
     }
 
     /**
@@ -260,6 +265,8 @@ class BookController extends Controller
             'excerpt' => 'string',
             'release_date' => 'date',
             'language' => 'string',
+            'image_ids' => 'array',
+            'images.*' => 'image',
         ]);
 
         $book = Book::findOrFail($id);
@@ -273,6 +280,17 @@ class BookController extends Controller
         if ($request->release_date) $book->release_date = $request->release_date;
         if ($request->language) $book->language = $request->language;
         $book->save();
+
+        // remove all images if the image id array changes
+        if ($request->image_ids != null) {
+            foreach ($inventoryItem->images as $image) {
+                $book->inventoryItem->images()->detatch($image);
+                $book->inventoryItem->save();
+            }
+        }
+
+        $inventoryItemController = new InventoryItemController;
+        $inventoryItemController->saveImages($book->inventoryItem, $request->image_ids, $request->images);
     }
 
     /**

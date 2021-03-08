@@ -429,6 +429,139 @@
                 }
             }
         },
+        "/api/image": {
+            "get": {
+                "tags": [
+                    "Image"
+                ],
+                "summary": "List images",
+                "description": "Get a List of all images.",
+                "operationId": "listImage",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Image"
+                ],
+                "summary": "Create image",
+                "description": "Create a new image.",
+                "operationId": "storeImage",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "path",
+                        "description": "The title of the image.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "alt",
+                        "in": "path",
+                        "description": "The alternative text of an image.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "image",
+                        "in": "path",
+                        "description": "The file of the image.",
+                        "required": true,
+                        "schema": {
+                            "type": "file"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/image/{id}": {
+            "get": {
+                "tags": [
+                    "Image"
+                ],
+                "summary": "Show image",
+                "description": "Display a single image",
+                "operationId": "showImage",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Image"
+                ],
+                "summary": "Delete image",
+                "description": "Delete a image.",
+                "operationId": "deleteImage",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Image"
+                ],
+                "summary": "Update image",
+                "description": "Update an image.",
+                "operationId": "updateImage",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "path",
+                        "description": "The title of the image.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "alt",
+                        "in": "path",
+                        "description": "The alternative text of an image.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
         "/api/inventoryitem": {
             "get": {
                 "tags": [

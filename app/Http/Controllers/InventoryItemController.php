@@ -99,6 +99,8 @@ class InventoryItemController extends Controller
             'type_id' => 'poly_exists:type_type',
             'user_id' => 'required|exists:App\Models\User,id',
             'location_id' => 'required|exists:App\Models\Location,id',
+            'image_ids' => 'array',
+            'images.*' => 'image',
         ]);
 
         $inventoryItem = new InventoryItem;
@@ -108,6 +110,8 @@ class InventoryItemController extends Controller
         $inventoryItem->user_id = $request->user_id;
         $inventoryItem->location_id = $request->location_id;
         $inventoryItem->save();
+
+        $this->saveImages($inventoryItem, $request->image_ids, $request->images);
     }
 
     /**
@@ -201,6 +205,8 @@ class InventoryItemController extends Controller
             'name' => 'string',
             'user_id' => 'exists:App\Models\User,id',
             'location_id' => 'exists:App\Models\Location,id',
+            'image_ids' => 'array',
+            'images.*' => 'image',
         ]);
 
         $inventoryItem = InventoryItem::findOrFail($id);
@@ -208,6 +214,16 @@ class InventoryItemController extends Controller
         if ($request->user_id) $inventoryItem->user_id = $request->user_id;
         if ($request->location_id) $inventoryItem->location_id = $request->location_id;
         $inventoryItem->save();
+
+        // remove all images if the image id array
+        if ($request->image_ids != null) {
+            foreach ($inventoryItem->images as $image) {
+                $inventoryItem->images()->detatch($image);
+                $inventoryItem->save();
+            }
+        }
+
+        $this->saveImages($inventoryItem, $request->image_ids, $request->images);
     }
 
     /**
@@ -235,11 +251,42 @@ class InventoryItemController extends Controller
             $tag->delete();
         }
 
+        foreach ($inventoryItem->images as $image) {
+            $inventoryItem->images()->detatch($image);
+            $inventoryItem->save();
+        }
+
         $type = $inventoryItem->type;
         if ($type != null) {
             $inventoryItem->type()->detatch($type);
             $type->delete();
         }
         $inventoryItem->delete();
+    }
+
+    public function saveImages($inventoryItem, $image_ids, $images) {
+        if($image_ids != null) {
+            foreach ($image_ids as $image_id) {
+                $inventoryItem->images()->attach($image_id);
+                $inventoryItem->save();
+            }
+        }
+
+        if($images != null) {
+            foreach ($images as $image) {
+                $name = $image->getClientOriginalName();
+                $file_name = uniqid();
+
+                $image->storeAs('public', $file_name);
+                URL::asset('storage/' . $file_name);
+
+                $image = new Image;
+                $image->title = $request->title;
+                $image->alt = $request->alt;
+                $image->ulr = 'storage/' . $file_name;
+                $inventoryItem->images()->save($image);
+                $inventoryItem->save();
+            }
+        }
     }
 }
