@@ -82,6 +82,20 @@ class InventoryItemController extends Controller
      *         required=true,
      *         @OA\Schema(type="integer")
      *      ),
+     *      @OA\Parameter(
+     *         name="image_ids",
+     *         in="path",
+     *         description="An array of images associated with the inventory item.",
+     *         required=false,
+     *         @OA\Schema(type="array")
+     *      ),
+     *      @OA\Parameter(
+     *         name="images",
+     *         in="file",
+     *         description="Images to be uploaded and associated with the inventory item.",
+     *         required=false,
+     *         @OA\Schema(type="array")
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation"
@@ -189,6 +203,20 @@ class InventoryItemController extends Controller
      *         required=false,
      *         @OA\Schema(type="integer")
      *      ),
+     *      @OA\Parameter(
+     *         name="image_ids",
+     *         in="path",
+     *         description="An array of images associated with the inventory item.",
+     *         required=false,
+     *         @OA\Schema(type="array")
+     *      ),
+     *      @OA\Parameter(
+     *         name="images",
+     *         in="file",
+     *         description="Images to be uploaded and associated with the inventory item.",
+     *         required=false,
+     *         @OA\Schema(type="array")
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation"
@@ -275,15 +303,14 @@ class InventoryItemController extends Controller
         if($images != null) {
             foreach ($images as $image) {
                 $name = $image->getClientOriginalName();
-                $file_name = uniqid();
+                $file_name = uniqid() . '.' . $image->getClientOriginalExtension();
 
                 $image->storeAs('public', $file_name);
-                URL::asset('storage/' . $file_name);
 
                 $image = new Image;
                 $image->title = $request->title;
                 $image->alt = $request->alt;
-                $image->ulr = 'storage/' . $file_name;
+                $image->ulr = 'public/' . $file_name;
                 $inventoryItem->images()->save($image);
                 $inventoryItem->save();
             }

@@ -45,6 +45,9 @@ $router->group([
     $router->get('/location', 'LocationController@index');
     $router->get('/location/{id}', 'LocationController@show');
 
+    $router->get('/image', 'ImageController@index');
+    $router->get('/image/{id}', 'ImageController@show');
+
 });
 
 
@@ -67,4 +70,8 @@ $router->group([
     $router->post('/location', 'LocationController@store');
     $router->patch('/location/{id}', 'LocationController@update');
     $router->delete('/location/{id}', 'LocationController@destroy');
+
+    $router->post('/image', 'ImageController@store');
+    $router->patch('/image/{id}', 'ImageController@update');
+    $router->delete('/image/{id}', 'ImageController@destroy');
 });

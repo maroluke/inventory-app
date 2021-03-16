@@ -82,19 +82,18 @@ class ImageController extends Controller
     {
         $this->validate($request, [
             'title' => 'required|string',
-            'alt' => 'string',
+            'alt' => 'nullable|string',
             'image' => 'required|image',
         ]);
 
-        $file_name = uniqid();
-        $file = $request->file('image');
+        $file_name = uniqid() . '.' . $request->image->getClientOriginalExtension();
+        $file = $request->image;
         $file->storeAs('public', $file_name);
-        URL::asset('storage/' . $file_name);
         
         $image = new Image;
         $image->title = $request->title;
         $image->alt = $request->alt;
-        $image->ulr = 'storage/' . $file_name;
+        $image->url = 'public/' . $file_name;
         $image->save();
     }
 
